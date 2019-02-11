@@ -35,5 +35,5 @@ app.use(bodyParser());
 app.use(router.routes()).use(router.allowedMethods());
 
 app.listen(port, () => {
-    console.log('listening to port 4000', port);
+    console.log('listening to port ', port);
 });
