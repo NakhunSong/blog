@@ -70,6 +70,11 @@ exports.list = async (ctx) => {
             .skip((page - 1) * 10) // 해당 갯수만큼 제외하고 다음 post를 보여줌
             .exec(); // _id를 내림차순으로 정렬
         const postCount = await Post.countDocuments().exec();
+        const limitBodyLength = post => ({
+            ...post,
+            body: post.body.length < 200 ? post.body : `${post.body.slice(0, 200)}...`
+        });
+        ctx.body = posts.map(limitBodyLength);
         // 마지막 페이지 알려주기
         // ctx.set은 response header를 설정
         ctx.set('Last-Page', Math.ceil(postCount / 10)); // 뒤 소수점 떨어뜨려 전체 페이지 수 count
