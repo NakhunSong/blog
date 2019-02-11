@@ -13,11 +13,29 @@ exports.checkObjectId = (ctx, next) => {
 }
 
 const Post = require('models/post');
+const Joi = require('joi');
 
 /** POST /api/posts
  * { title, body, tags }
  */
 exports.write = async (ctx) => {
+    // 객체가 지닌 값들을 검증
+    const schema = Joi.object().keys({
+        title: Joi.string().required(), // 뒤에 required를 붙여 주면 필수 항목이라는 의미
+        body: Joi.string().required(),
+        tags: Joi.array().items(Joi.string()).required() // 문자열 배열
+    });
+
+    // 첫 번째 파라미터는 검증할 객체, 두 번째는 스키마
+    const result = Joi.validate(ctx.request.body, schema);
+
+    // 오류가 발생하면 오류 내용 응답
+    if(result.error) {
+        ctx.status = 400;
+        ctx.body = result.error;
+        return;
+    }
+
     const { title, body, tags } = ctx.request.body;
 
     // 새 Post 인스턴스를 만듭니다.
@@ -35,8 +53,26 @@ exports.write = async (ctx) => {
 };
 
 exports.list = async (ctx) => {
+    // page가 주어지지 않았다면 1로 간주
+    // query는 문자열 형태로 받아오므로 숫자로 변환
+    const page = parseInt(ctx.query.page || 1, 10);
+
+    // 잘못된 페이지가 주어졌다면 오류
+    if(page < 1) {
+        ctx.status = 400;
+        return;
+    }
+
     try {
-        const posts = await Post.find().exec();
+        const posts = await Post.find()
+            .sort({_id: -1})
+            .limit(10) // 한번에 보이는 갯수를 10개로 제한
+            .skip((page - 1) * 10) // 해당 갯수만큼 제외하고 다음 post를 보여줌
+            .exec(); // _id를 내림차순으로 정렬
+        const postCount = await Post.countDocuments().exec();
+        // 마지막 페이지 알려주기
+        // ctx.set은 response header를 설정
+        ctx.set('Last-Page', Math.ceil(postCount / 10)); // 뒤 소수점 떨어뜨려 전체 페이지 수 count
         ctx.body = posts;
     } catch(e) {
         ctx.throw(e, 500);
