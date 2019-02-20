@@ -4,10 +4,10 @@
 
 body {
     margin: 0;
-    box-sizing: border-box;
+    box-sizing: border-box; // 테두리를 기준으로 크기를 정함
     font-family: "Noto Sans KR", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased; // 글꼴을 좀더 부드럽게 설정(only for Mac OS)
+    -moz-osx-font-smoothing: grayscale; // 글꼴을 부드럽게 설정(only for Mac OS)
 }
 
 // box-sizing 일괄 설정
