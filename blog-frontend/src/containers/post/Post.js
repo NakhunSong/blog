@@ -22,8 +22,8 @@ class Post extends Component {
     render() {
         const { loading, post } = this.props;
 
-        if(loading) return null; // 로딩 중일 때는 아무것도 보여 주지 않음
-
+        if(loading || loading == null) return null; // 로딩 중일 때는 아무것도 보여 주지 않음
+        console.log('PostContainer loading: ', loading);
         const { title, body, publishedDate, tags } = post.toJS();
 
         return (
