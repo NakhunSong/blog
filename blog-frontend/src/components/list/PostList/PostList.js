@@ -24,6 +24,9 @@ const PostItem = ({title, body, publishedDate, tags, id}) => {
 }
 const PostList = ({posts}) => {
     console.log("postS: ", posts);
+    if(!posts) {
+        return null;
+    }
     const postList = posts.map(
         (post) => {
             const { _id, title, body, publishedDate, tags } = post.toJS();

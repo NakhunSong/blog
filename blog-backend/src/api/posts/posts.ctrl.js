@@ -57,6 +57,10 @@ exports.list = async (ctx) => {
     // query는 문자열 형태로 받아오므로 숫자로 변환
     const page = parseInt(ctx.query.page || 1, 10);
 
+    const query = tag ? {
+        tags: tag // tags 배열에 tag를 가진 포스트 찾기
+    } : {};
+
     // 잘못된 페이지가 주어졌다면 오류
     if(page < 1) {
         ctx.status = 400;
@@ -64,12 +68,13 @@ exports.list = async (ctx) => {
     }
 
     try {
-        const posts = await Post.find()
+        const posts = await Post.find(query)
             .sort({_id: -1})
             .limit(10) // 한번에 보이는 갯수를 10개로 제한
             .skip((page - 1) * 10) // 해당 갯수만큼 제외하고 다음 post를 보여줌
+            .lean()
             .exec(); // _id를 내림차순으로 정렬
-        const postCount = await Post.countDocuments().exec();
+        const postCount = await Post.countDocuments(query).exec();
         const limitBodyLength = post => ({
             ...post,
             body: post.body.length < 200 ? post.body : `${post.body.slice(0, 200)}...`
