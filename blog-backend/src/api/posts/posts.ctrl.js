@@ -56,7 +56,8 @@ exports.list = async (ctx) => {
     // page가 주어지지 않았다면 1로 간주
     // query는 문자열 형태로 받아오므로 숫자로 변환
     const page = parseInt(ctx.query.page || 1, 10);
-
+    const { tag } = ctx.query;
+    
     const query = tag ? {
         tags: tag // tags 배열에 tag를 가진 포스트 찾기
     } : {};
