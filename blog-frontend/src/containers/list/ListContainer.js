@@ -32,7 +32,6 @@ class ListContainer extends Component {
         const { loading, posts, page, lastPage, tag } = this.props;
         // redux-pender 라이브러리 에러: pender.pending[...] 이 true값을 반환하지 못함. (undefined처리됨.)
         if(loading || loading == null) return null; // 로딩 중에는 아무것도 보여 주지 않음.
-        console.log('container loading', loading);
 
         return (
             <div>
