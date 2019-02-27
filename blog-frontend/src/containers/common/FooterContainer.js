@@ -10,6 +10,8 @@ class FooterContainer extends Component {
         if(logged) {
             try {
                 await BaseActions.logout();
+                
+                localStorage.removeItem("logged"); // 로컬 스토리지 item 삭제
                 window.location.reload(); // 새로고침
             } catch(e) {
                 console.log(e);
