@@ -6,7 +6,7 @@ const bodyParser = require('koa-bodyparser');
 
 const api = require('./api');
 
-const ssr = require('./ssr');
+// const ssr = require('./ssr');
 
 const mongoose = require('mongoose');
 
@@ -33,7 +33,7 @@ const router = new Router();
 
 // 라우터 설정
 router.use('/api', api.routes());
-router.get('/', ssr);
+// router.get('/', ssr);
 
 // 라우터 적용 전에 bodyParser 적용
 app.use(bodyParser());
@@ -50,7 +50,7 @@ app.keys = [signKey];
 // app 인스턴스에 라우터 적용
 app.use(router.routes()).use(router.allowedMethods());
 
-app.use(ssr); // 일치하는 것이 없으면 ssr을 실행합니다.
+// app.use(ssr); // 일치하는 것이 없으면 ssr을 실행합니다.
 
 app.listen(port, () => {
     console.log('listening to port ', port);

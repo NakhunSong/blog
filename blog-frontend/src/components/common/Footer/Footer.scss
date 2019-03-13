@@ -1,7 +1,7 @@
 @import 'utils';
 
 .footer {
-    background: $oc-gray-8;
+    background: $oc-gray-2;
     height: 10rem;
 
     // 내부 내용 가운데 정렬
@@ -12,8 +12,8 @@
 
     .brand {
         // 로고
-        color: white;
-        font-size: 2rem;
+        color: $oc-gray-8;
+        font-size: 1.5rem;
         font-weight: 600;
     }
 
@@ -22,10 +22,13 @@
         margin-top: 0.5rem;
         font-weight: 600;
         font-size: 0.8rem;
-        color: rgba(255, 255, 255, 0.8);
+        color: $oc-gray-8;
         cursor: pointer; // 손가락 모양 커서
-        &.hover { // 마우스 호버할 때는 불투명도 없애기
-            color: white;
+
+        &:hover { // 마우스 호버할 때는 불투명도 없애기
+            color: black;
+            transform: scale(1.1, 1.1);
+            font-weight: 700;
         }
     }
 }
